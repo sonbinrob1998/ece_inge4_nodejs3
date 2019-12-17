@@ -1,5 +1,6 @@
 import { LevelDB } from './leveldb'
 import WriteStream from 'level-ws'
+import { NOTFOUND } from 'dns';
 
 export class Metric {
   public timestamp: string
@@ -11,51 +12,70 @@ export class Metric {
   }
 }
 
-
 export class MetricsHandler {
-  public db: any 
-  
+  public db: any
+
   constructor(dbPath: string) {
     this.db = LevelDB.open(dbPath)
   }
-  
+
   // public save(key: string, metrics: Metric[], callback: (error: Error | null) => void) {
-  public save(key: string, metrics , callback: (error: Error | null) => void) {
-    console.log("HEllo", key, metrics);
-    // const stream = WriteStream(this.db)
-    // stream.on('error', callback)
-    // stream.on('close', callback)
-    // metrics.forEach((m: Metric) => {
-    //   stream.write({ key: `metric:${key}:${m.timestamp}`, value: m.value })
-    // })
-    // stream.end()
-
-    // metrics.forEach((m: Metric) => {
-      this.db.put(`${key}:${metrics.timestamp}`, `${metrics.value}`, (err: Error | null) => {
-        callback(err)
-       })
-      // })
-
-  }
   
-  public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
-    const stream = this.db.createReadStream()
-    var met: Metric[] = []
+    public save(key: string, metrics: Metric[], callback: (error: Error | null) => void) {
+      const stream = WriteStream(this.db)
+      stream.on('error', callback)
+      stream.on('close', callback)
+      metrics.forEach((m: Metric) => {
+        stream.write({ key: `metric:${key}:${m.timestamp}`, value: m.value })
+      })
+      stream.end()
+    } 
     
+    public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
+      //creates a read stream
+      const stream = this.db.createReadStream()
+      var met: Metric[] = []
+      
+      stream.on('error', callback)
+        .on('data', (data: any) => {
+          
+      //for each data, we will fire this function
+          const [_, k, timestamp] = data.key.split(":")
+          const value = data.value
+          if (key != k) {
+            console.log(`Data ${k} does not match key ${key}`)
+            met.push(new Metric(timestamp, value))
+          } else {
+            console.log(`Data ${k} match the key ${key}`)
+            met.push(new Metric(timestamp, value))
+          }
+        })
+        .on('end', (err: Error) => {
+          callback(null, met)
+        })
+    }
+
+
+
+  public delete(key: number, callback: (err: Error | null) => void) {
+
+    const stream = this.db.createReadStream()
     stream.on('error', callback)
-      .on('data', (data: any) => {
-        console.log(data);
-        const [_, k, timestamp] = data.key.split(":")
-        const value = data.value
-        if (key != k) {
-          console.log(`LevelDB error: ${data} does not match key ${key}`)
-        } else {
-          met.push(new Metric(timestamp, value))
-        }
-      })
-      .on('end', (err: Error) => {
-        callback(null, met)
-      })
+    .on('data', (data: any) => {
+      
+  //for each data, we will fire this function
+      const [_, k, timestamp] = data.key.split(":")
+      const value = data.value
+      if (key != k) {
+        console.log(`Data ${k} does not match key ${key} and won't be deleted`)
+      } else {
+        console.log(`Data ${k} match the key ${key} and will be deleted`)
+      }
+      this.db.del(data.key)
+    })
+    .on('end', (err: Error) => {
+      callback(null )
+    })
   }
-  
+
 }

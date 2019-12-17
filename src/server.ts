@@ -14,20 +14,37 @@ app.set('views', __dirname + "/../views")
 app.set('view engine', 'ejs');
 
 const dbMet: MetricsHandler = new MetricsHandler('./db/metrics')
+ 
+//API PART
 
-app.get('/metrics/:id', (req: any, res: any) => {
+//cRud
+app.get('/api/metrics/:id', (req: any, res: any) => {
     dbMet.get(req.params.id, (err: Error | null, result?: any) => {
       if (err) throw err
       res.json(result)
     })
   })
-  
-app.post('/metrics/:id', (req: any, res: any) => {
+
+//Post (body has to be an array of metrics, like 
+// [
+//   {"timestamp":"11154454548", "value": 10},
+//   {"timestamp":"111544545483, "value": 10}
+// ]
+
+app.post('/api/metrics/:id', (req: any, res: any) => {
+  dbMet.save(req.params.id, req.body, (err: Error | null) => {
+    if (err) throw err
+    res.status(200).send()
+  })
+})
+
+  //Delete all
+  app.delete('/api/metrics/:id', (req: any, res: any) => {
     // console.log('req.body',req.body);
     // let metric = new Metric(req.body.timestamp, req.body.value);
     // var met: Metric[] = []
     // met.push(metric)
-    dbMet.save(req.params.id, req.body, (err: Error | null, result?: any) => {
+    dbMet.delete(req.params.id, (err: Error | null, result?: any) => {
       if (err) throw err
       res.json(result)
     })
