@@ -1,4 +1,14 @@
 <h1>Sign In </h1>
+<div id="redirect"></div>
+<script> 
+const urlParams = new URLSearchParams(window.location.search);
+const myParam = urlParams.get('redirect');
+if (myParam == 'True')
+{
+    document.getElementById('redirect').innerHTML = "<h2>Account created. You can now log in !</h2>"
+}
+
+</script>
 <form action="/login" method="POST">
 
     <div>
