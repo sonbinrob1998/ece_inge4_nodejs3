@@ -58,16 +58,18 @@ export class MetricsHandler {
       console.log("Creating a new user with params ", params)
       
       const stream = WriteStream(this.db)
-      stream.on('end', callback(null, {ok:ok})  )
+      stream.on('end', callback(null, {ok:ok})    )
       stream.write({key: `user:${params.name}`, value: {email : `${params.email}`, password: `${params.password}`}})
       stream.on('error', )
       stream.end()
   
   
     }
-    public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
+    public get(params: any, callback: (err: Error | null, result?: Metric[]) => void) {
       //creates a read stream
       const stream = this.db.createReadStream()
+      let key = params.id
+      let pwd = params.pwd
       var met: Metric[] = [] 
       
       stream.on('error', callback)
