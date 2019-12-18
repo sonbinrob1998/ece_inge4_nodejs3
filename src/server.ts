@@ -30,6 +30,10 @@ app.get('/signin', (req,res)=> {
 app.get('/signup', (req,res)=>{
   res.render('signup.ejs')
 })
+
+app.get('/modification', (req, res)=>{
+  res.render('modification.ejs')
+})
 //API PART
 app.get('/api/all', (req: any, res: any) => {
   dbMet.see_all((err: Error | null, result?: any) => {
@@ -38,7 +42,7 @@ app.get('/api/all', (req: any, res: any) => {
   })
 })
 //cRud
-app.get('/api/metrics/:id', (req: any, res: any) => {
+app.get('/api/metrics/:id/:pwd', (req: any, res: any) => {
     dbMet.get(req.params.id, (err: Error | null, result?: any) => {
       if (err) throw err
       res.json(result)
@@ -50,8 +54,6 @@ app.get('/api/metrics/:id', (req: any, res: any) => {
 //   {"timestamp":"11154454548", "value": 10},
 //   {"timestamp":"11154454549, "value": 15}
 // ]
-
-
 app.post('/api/metrics/:id', (req: any, res: any) => {
   dbMet.save(req.params.id, req.body, (err: Error | null) => {
     if (err) throw err
@@ -70,7 +72,7 @@ app.post('/user/', (req: any, res: any) => {
 })
 
 
-  //Delete all
+  //Delete one
   app.delete('/api/metrics/:id', (req: any, res: any) => {
     // console.log('req.body',req.body);
     // let metric = new Metric(req.body.timestamp, req.body.value);
