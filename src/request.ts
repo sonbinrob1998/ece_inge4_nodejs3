@@ -1,12 +1,5 @@
-module.exports= {
-//creation requete
-req : (user) =>{
+import { MetricsHandler, Metric } from './metrics'
 
-    var req = new XMLHttpRequest();
-    let url: string = "http://localhost:8080/api/metrics/" + user
-    req.open("GET", url, false);
-    req.send(null);
-    console.log(req.responseText);
-    } 
-}
 
+let arr :Metric[] 
+let db: MetricsHandler = 
