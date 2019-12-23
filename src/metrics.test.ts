@@ -36,10 +36,10 @@ describe ('#saveUser', function(){
             expect(result).to.not.be.null
             expect(result).to.be.an('array');
             expect('Robi').to.be.a('string');
-            expect(result).to.have.a.property('key');
-            expect(result).to.have.a.property('value');
-            expect(result).to.have.a.property('password');
-            expect(result).to.include({key: Robi})
+            // expect(result).to.have.a.property('key');
+            // expect(result).to.have.a.property('value');
+            // expect(result).to.have.a.property('password');
+            expect(result).to.include({key: 'Robi'})
 
 
 
