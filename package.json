@@ -17,6 +17,8 @@
     "ejs": "^2.7.4",
     "encoding-down": "^6.3.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "level-session-store": "^2.2.0",
     "level-ws": "^2.0.0",
     "leveldown": "^5.4.1",
     "levelup": "^4.3.2",

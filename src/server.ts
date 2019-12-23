@@ -17,6 +17,21 @@ app.set('view engine', 'ejs');
 const dbMet: MetricsHandler = new MetricsHandler('./db/metrics')
  
 
+//Sessions
+
+import session = require('express-session')
+import levelSession = require('level-session-store')
+
+const LevelStore = levelSession(session)
+
+app.use(session({
+  secret: 'my very secret phrase',
+  store: new LevelStore('./db/sessions'),
+  resave: true,
+  saveUninitialized: true
+}))
+
+
 
 //FRONT END PART 
 app.get('/', (req, res)=> {
@@ -43,7 +58,7 @@ app.get('/api/all', (req: any, res: any) => {
 })
 //cRud
 app.get('/api/metrics/:id/:pwd', (req: any, res: any) => {
-    dbMet.get(req.params.id, (err: Error | null, result?: any) => {
+    dbMet.get(req.params, (err: Error | null, result?: any) => {
       if (err) throw err
       res.json(result)
     })
