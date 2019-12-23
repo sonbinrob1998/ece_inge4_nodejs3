@@ -1,11 +1,12 @@
- 
-
+module.exports= {
 //creation requete
-var req = new XMLHttpRequest();
+req : (user) =>{
 
-req.open("GET","http://localhost:8080/api/metrics/", false);
-
-req.send(null);
-
-console.log(req.responseText);
+    var req = new XMLHttpRequest();
+    let url: string = "http://localhost:8080/api/metrics/" + user
+    req.open("GET", url, false);
+    req.send(null);
+    console.log(req.responseText);
+    } 
+}
 
