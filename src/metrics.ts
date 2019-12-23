@@ -33,15 +33,6 @@ export class MetricsHandler {
         callback(null, arr)
       })
   }
-
-  public API_authenticate(req: any) {
-    const stream = WriteStream(this.db)
-    stream.on('data', (data: any) => {
-      const [_, username] = data.key.split(":")
-
-    })
-    return true
-  }
   public save(key: string, metrics: Metric[], callback: (error: Error | null, result?: []) => void) {
     const stream = WriteStream(this.db)
     stream.on('error', callback)
@@ -70,6 +61,7 @@ export class MetricsHandler {
         }
       })
       .on('end', (err: Error) => {
+        console.log("User's metrics are ", met)
         callback(null, met)
       })
   }
@@ -127,8 +119,9 @@ export class MetricsHandler {
           console.log(`Data ${k} does not match key ${key} and won't be deleted`)
         } else {
           console.log(`Data ${k} match the key ${key} and will be deleted`)
+          this.db.del(data.key)
         }
-        this.db.del(data.key)
+      
       })
       .on('end', (err: Error) => {
         callback(null)
