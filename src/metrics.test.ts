@@ -30,10 +30,19 @@ describe('get', function () {
   })
 describe ('#saveUser', function(){
     it('should save data or uptate data', function (){
-        dbMet.saveUser("Robi", function(err:Error| null, result?: Metric[]){
+        dbMet.saveUser("{key: Robi, value: sonbinrob@gmail.com, password: ninja}", function(err:Error| null, result?: Metric[]){
             expect(err).to.be.null
             expect(result).to.not.be.undefined
             expect(result).to.not.be.null
+            expect(result).to.be.an('array');
+            expect('Robi').to.be.a('string');
+            expect(result).to.have.a.property('key');
+            expect(result).to.have.a.property('value');
+            expect(result).to.have.a.property('password');
+            expect(result).to.include({key: Robi})
+
+
+
         })
     })
 })
