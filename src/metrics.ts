@@ -43,7 +43,7 @@ export class MetricsHandler {
     stream.end()
   }
 
-  public getMetricsUser(key: String, callback: (error: Error | null, result?: any) => void) {
+  public getMetricsUser(key: String, callback: (error: Error | null, result?: Metric[]) => void) {
     console.log("Reading data for user", key)
 
     //creates a read stream
@@ -68,14 +68,11 @@ export class MetricsHandler {
 
   public saveUser(params: any, callback: (error: Error | null, result?: any) => void) {
     console.log("Creating a new user with params ", params)
-
     const stream = WriteStream(this.db)
     stream.on('end', callback(null, { ok: ok }))
-    stream.write({ key: `user:${params.name}`, value: { email: `${params.email}`, password: `${params.password}` } })
+    stream.write({ key: `user:${params.username}`, value: { email: `${params.email}`, password: `${params.password}` } })
     stream.on('error')
     stream.end()
-
-
   }
   public get(params: any, callback: (err: Error | null, result?: Metric[]) => void) {
     //creates a read stream
@@ -121,7 +118,6 @@ export class MetricsHandler {
           console.log(`Data ${k} match the key ${key} and will be deleted`)
           this.db.del(data.key)
         }
-      
       })
       .on('end', (err: Error) => {
         callback(null)
