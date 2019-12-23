@@ -57,10 +57,21 @@ const authCheck = function (req: any, res: any, next: any) {
 
 authRouter.get('/modification', authCheck, (req: any, res: any) =>
 {
-  dbMet.getMetricsUser(req.session.name, (err: Error | null, result?:Metric[])=>
-  {  console.log(req.session)
-    console.log("rendering metrics for ", req.session.name, "metrics : ", result)
-    res.render('modification', {result : result})
+  dbMet.get(req.session.user.username, (err: Error | null, result?:Metric[])=>
+  {  
+    console.log(result)
+    var arr: any[] = [ ["Timestamp", "Value"] ]
+    if (result!.length != 0)
+    {
+     
+      result!.forEach(element => {
+        arr.push([element.timestamp, element.value])
+      });
+    }
+  
+    console.log("rendering metrics for ", req.session.user.username, "metrics : ", result)
+    console.log(arr)
+    res.render('modification', {name: req.session.user.username, result : result, arr: arr})
    })
 })
 authRouter.get('/logout', authCheck, (req: any, res: any) => {

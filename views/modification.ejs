@@ -2,33 +2,60 @@
 <html>
    
 <head>
-   
     <meta charset="utf-8">
     <title>Modification of metrics </title>
 </head>
 
 
 <body>
-    <h1>your metrics</h1>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <% var getArr = arr; console.log(getArr) %>
+    <script type="text/javascript">
+    console.log(arr)
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(arr);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+      
+    </script>
+    <h1>Hello <%=name%> !</h1>
+    <h2>Here are your metrics. (and not others' !!)</h2>
     <ul id="langages">
     </ul>
 
     
 </body>
 
+
+<div id="curve_chart" style="width: 900px; height: 500px"></div>
 <p>
-    <div>e<%=result%>e</div>
-    <table id='table_metrics'>
-        <caption>Metrics</caption>
+    <body>    
+        <table> 
             <tr>
-                <td>Timestamp</td>
-                <td>Value</td>
+                <th>Timestamp</th>
+                <th>Value</th>
             </tr>
+            <% result.forEach((item)=>{%> 
             <tr>
-
-            </tr>
-
-    </table>
+                <td><%=item.timestamp%></td>
+                <td><%=item.value%></td>
+            </tr></li>  
+            <%});%> 
+            </table> 
+    </body> 
 </p>
 
 </html>

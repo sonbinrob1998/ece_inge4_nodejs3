@@ -74,12 +74,10 @@ export class MetricsHandler {
     stream.on('error')
     stream.end()
   }
-  public get(params: any, callback: (err: Error | null, result?: Metric[]) => void) {
+  public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
     //creates a read stream
 
     const stream = this.db.createReadStream()
-    let key = params.id
-    let pwd = params.pwd
     var met: Metric[] = []
 
     stream.on('error', callback)
@@ -90,7 +88,7 @@ export class MetricsHandler {
         const value = data.value
         if (key != k) {
           console.log(`Data ${k} does not match key ${key}`)
-          met.push(new Metric(timestamp, value))
+ 
         } else {
           console.log(`Data ${k} match the key ${key}`)
           met.push(new Metric(timestamp, value))
