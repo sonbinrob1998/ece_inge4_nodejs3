@@ -3,6 +3,7 @@ import { MetricsHandler, Metric } from './metrics'
 import path = require('path')
 import bodyparser = require('body-parser')
 import { ok } from 'assert'
+import './request.ts'
 
 const app = express()
 const port: string = process.env.PORT || '8080'
@@ -18,7 +19,7 @@ const dbMet: MetricsHandler = new MetricsHandler('./db/metrics')
  
 
 //Sessions
-
+/*
 import session = require('express-session')
 import levelSession = require('level-session-store')
 
@@ -30,7 +31,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-
+*/
 
 
 //FRONT END PART 
