@@ -10,7 +10,10 @@ const dbUser: UserHandler = new UserHandler(dir + '/users')
 const met: Metric[] = [
   new Metric(`${new Date('2019-11-04 14:00 UTC').getTime()}`, 12),
   new Metric(`${new Date('2019-11-04 14:15 UTC').getTime()}`, 10),
-  new Metric(`${new Date('2019-11-04 14:30 UTC').getTime()}`, 8)
+  new Metric(`${new Date('2019-11-04 14:30 UTC').getTime()}`, 8),
+  new Metric(`${new Date('2019-11-04 18:40 UTC').getTime()}`, 16),
+  new Metric(`${new Date('2019-11-04 19:40 UTC').getTime()}`, 10),
+  new Metric(`${new Date('2019-11-04 22:10 UTC').getTime()}`, 5)
 ]
 const met1: Metric[] = [
     new Metric(`${new Date('2024-07-04 10:00 UTC').getTime()}`, 12),
