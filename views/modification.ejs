@@ -9,18 +9,18 @@
 
 <body>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <% var getArr = arr; console.log(getArr) %>
+
     <script type="text/javascript">
-    console.log(arr)
+
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
 
-        var data = google.visualization.arrayToDataTable(arr);
+        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(arr) %>);
 
         var options = {
-          title: 'Company Performance',
+          title: 'Value depending on timestamp',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
