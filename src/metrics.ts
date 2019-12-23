@@ -67,6 +67,7 @@ export class MetricsHandler {
     }
     public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
       //creates a read stream
+  
       const stream = this.db.createReadStream()
       var met: Metric[] = [] 
       
@@ -111,5 +112,6 @@ export class MetricsHandler {
       callback(null )
     })
   }
+
 
 }
