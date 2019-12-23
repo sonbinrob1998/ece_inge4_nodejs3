@@ -49,7 +49,6 @@ authRouter.get('/signup', (req: any, res: any) => {
 
 
 const authCheck = function (req: any, res: any, next: any) {
-  console.log("session : ", req.session)
   if (req.session.loggedIn) {
     next()
   } else res.redirect('/login')
@@ -59,7 +58,6 @@ authRouter.get('/modification', authCheck, (req: any, res: any) =>
 {
   dbMet.get(req.session.user.username, (err: Error | null, result?:Metric[])=>
   {  
-    console.log(result)
     var arr: any[] = [ ["Timestamp", "Value"] ]
     if (result!.length != 0)
     {
@@ -69,7 +67,8 @@ authRouter.get('/modification', authCheck, (req: any, res: any) =>
       });
     }
   
-    console.log("rendering metrics for ", req.session.user.username, "metrics : ", result)
+    console.log("rendering metrics for :", req.session.user.username)
+    console.log( "metrics : ", result)
     console.log(arr)
     res.render('modification', {name: req.session.user.username, result : result, arr: arr})
    })
@@ -81,7 +80,6 @@ authRouter.get('/logout', authCheck, (req: any, res: any) => {
 })
 authRouter.post('/login', (req: any, res: any, next: any) => {
   dbUser.get(req.body.username, (err: Error | null, result?: User) => {
-    console.log(result)
     if (err) next(err)
     if (result === undefined || !result.validatePassword(req.body.password)) {
       res.redirect('/login')
@@ -107,7 +105,7 @@ userRouter.post('/', (req: any, res: any, next: any) => {
       let user = new User(req.body.username, req.body.email, req.body.password)
       dbUser.save(user, function (err: Error | null) {
         if (err) next(err)
-        else res.status(201).send("You subscribed succesfully ! You are now logged in.")
+        else res.redirect("/")
       })
     }
   })
@@ -165,25 +163,6 @@ app.post('/api/metrics/:id', (req: any, res: any) => {
   
   })
 })
-
-app.post('/user', (req: any, res: any) => {
-
-  dbUser.save(req.body, (err: Error | null) => {
-    if (err) throw err
-    res.redirect('/signin?redirect=True')
-    res.status(200).send(ok)
-
-  })
-})
-
-
-  //Delete one
-  app.delete('/api/metrics/:id', (req: any, res: any) => {
-    // console.log('req.body',req.body);
-    // let metric = new Metric(req.body.timestamp, req.body.value);
-    // var met: Metric[] = []
-    // met.push(metric)
-  })
 
   //delete one user
   //use id = "4ll" to erase everything (dev)

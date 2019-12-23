@@ -33,6 +33,12 @@ export class MetricsHandler {
         callback(null, arr)
       })
   }
+
+  /*works for only 1 element, like {
+	"timestamp": 11111,
+	"value" : 11
+  }
+*/
   public save(key: string, metrics: any, callback: (error: Error | null, result?: []) => void) {
     const stream = WriteStream(this.db)
     stream.on('error', callback)
@@ -43,7 +49,6 @@ export class MetricsHandler {
   }
 
   public getMetricsUser(key: String, callback: (error: Error | null, result?: Metric[]) => void) {
-    console.log("Reading data for user", key)
 
     //creates a read stream
     const stream = this.db.createReadStream()
@@ -55,12 +60,11 @@ export class MetricsHandler {
         const [_, k, timestamp] = data.key.split(":")
         const value = data.value
         if (key == k) {
-          console.log(`Adding metric ${timestamp} ; ${value}`)
+        
           met.push(new Metric(timestamp, value))
         }
       })
       .on('end', (err: Error) => {
-        console.log("User's metrics are ", met)
         callback(null, met)
       })
   }
@@ -85,11 +89,7 @@ export class MetricsHandler {
         //for each data, we will fire this function
         const [_, k, timestamp] = data.key.split(":")
         const value = data.value
-        if (key != k) {
-          console.log(`Data ${k} does not match key ${key}`)
- 
-        } else {
-          console.log(`Data ${k} match the key ${key}`)
+        if (key == k) { 
           met.push(new Metric(timestamp, value))
         }
       })
