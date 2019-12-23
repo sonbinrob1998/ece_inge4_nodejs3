@@ -30,23 +30,25 @@ describe('get', function () {
   })
 // describe ('#saveUser', function(){
 //     it('should save data or uptate data', function (){
-//         dbMet.saveUser("{key: Robi, value: sonbinrob@gmail.com, password: ninja}", function(err:Error| null, result?: Metric[]){
+//         dbMet.saveUser('{"key":"metric:User0:1572876000000","value":12, password: "ninja"}', function(err:Error| null, result?: Metric[]){
 //             expect(err).to.be.null
 //             expect(result).to.not.be.undefined
 //             expect(result).to.not.be.null
-//             expect(result).to.be.an('array');
 //             expect('Robi').to.be.a('string');
+//             expect('metric:User0:1572876000000').to.be.a('string');
+//             expect('ninja').to.be.a('string');
+
 //             // expect(result).to.have.a.property('key');
 //             // expect(result).to.have.a.property('value');
 //             // expect(result).to.have.a.property('password');
-//             expect(result).to.include({key: 'Robi'})
+//             // expect(result).to.include({key: 'Robi'})
 
 
 
 //         })
 //     })
 // })
-
+//[{"key":"metric:User0:1572876000000","value":12},{"key":"metric:User0:1572876900000","value":10},{"key":"metric:User0:1572877800000","value":8}]
 // describe ('#save', function(){
 //     it('should save data or uptate data', function (){
 //         dbMet.saveUser("Robi", function(err:Error| null, result?: Metric[]){
