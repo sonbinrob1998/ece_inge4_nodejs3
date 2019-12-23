@@ -9,7 +9,7 @@
 
 <body>
     <script>
-    function sendReq(user, timestamp){
+    function sendReqDel(user, timestamp){
         url = `http://localhost:8080/api/delete/metrics/${user}/${timestamp}`
         var xhr = new XMLHttpRequest();
         xhr.open('DELETE', url, true);
@@ -63,9 +63,16 @@
             <tr>
                 <td><%=item.timestamp%></td>
                 <td><%=item.value%></td>
-                <td><button onClick="sendReq('<%= name %>', <%= item.timestamp%>)">X</button></td>  
+                <td><button onClick="sendReqDel('<%= name %>', <%= item.timestamp%>)">X</button></td>  
             </tr></li>  
             <%});%> 
+            <form action="http://localhost:8080/api/metrics/<%=name%>" method="POST">
+            <tr>
+                <td><input value="1572876000000" type="text" name="timestamp" id="timestamp"></td> 
+                <td ><input value="10" type="text" name="value" id="name"></td > 
+                <td><button type="submit" id="submit" href="http://localhost:8080/modification">Send</button></td> 
+            </tr>
+        </form>
             </table> 
     </body> 
 </p>

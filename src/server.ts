@@ -160,7 +160,9 @@ app.get('/api/metrics/:id/', (req: any, res: any) => {
 app.post('/api/metrics/:id', (req: any, res: any) => {
   dbMet.save(req.params.id, req.body, (err: Error | null) => {
     if (err) throw err
-    res.status(200).send(ok)
+
+    res.redirect('/modification')
+  
   })
 })
 
