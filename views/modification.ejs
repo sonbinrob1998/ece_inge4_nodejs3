@@ -8,6 +8,16 @@
 
 
 <body>
+    <script>
+    function sendReq(user, timestamp){
+        url = `http://localhost:8080/api/delete/metrics/${user}/${timestamp}`
+        var xhr = new XMLHttpRequest();
+        xhr.open('DELETE', url, true);
+        xhr.send();
+        location.reload();
+    }
+    </script>
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script type="text/javascript">
@@ -47,11 +57,13 @@
             <tr>
                 <th>Timestamp</th>
                 <th>Value</th>
+                <th>Remove</th>
             </tr>
             <% result.forEach((item)=>{%> 
             <tr>
                 <td><%=item.timestamp%></td>
                 <td><%=item.value%></td>
+                <td><button onClick="sendReq('<%= name %>', <%= item.timestamp%>)">X</button></td>  
             </tr></li>  
             <%});%> 
             </table> 

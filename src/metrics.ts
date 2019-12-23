@@ -121,6 +121,28 @@ export class MetricsHandler {
         callback(null)
       })
   }
+  public deleteOne(params, callback: (err: Error | null) => void) {
+
+    const stream = this.db.createReadStream()
+    let username = params.id
+    let timestamp = params.timestamp
+    stream.on('error', callback)
+      .on('data', (data: any) => {
+
+        //for each data, we will fire this function
+        const [_, usr, tmstmp] = data.key.split(":")
+        const value = data.value
+        if (usr != username || tmstmp != timestamp) {
+          
+        } else {
+          console.log(`Timestamp ${timestamp} for user ${username} will be deleted`)
+          this.db.del(data.key)
+        }
+      })
+      .on('end', (err: Error) => {
+        callback(null)
+      })
+  }
 
 
 }

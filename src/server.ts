@@ -160,7 +160,7 @@ app.get('/api/metrics/:id/', (req: any, res: any) => {
 app.post('/api/metrics/:id', (req: any, res: any) => {
   dbMet.save(req.params.id, req.body, (err: Error | null) => {
     if (err) throw err
-    res.status(200).send()
+    res.status(200).send(ok)
   })
 })
 
@@ -192,6 +192,7 @@ app.post('/user', (req: any, res: any) => {
       {
         console.log(err)
       }
+      res.status(200).send()
       })
   })
 
@@ -201,6 +202,17 @@ app.post('/user', (req: any, res: any) => {
       {
         console.log(err)
       }
+      res.status(200).send()
+  })
+  })
+
+  app.delete('/api/delete/metrics/:id/:timestamp', (req: any, res: any) => {
+    dbMet.deleteOne(req.params, (err)=>{
+      if (err)
+      {
+        console.log(err)
+      }
+      res.status(200).send()
   })
   })
 app.listen(port, (err: Error) => {
