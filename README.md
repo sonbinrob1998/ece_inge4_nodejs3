@@ -56,4 +56,20 @@ We haven't been able to re-do all the project on our own. As such, we reckon hav
 
 We know it was explicitly said not to do it, however there is no way we would have even started the project by now if we hadn't used those templates.
 
- 
+### DevOps part 
+
+##### Docker 
+
+We have an issue with the image. It is runnable, the image is done and all, but I just can't find a SINGLE WAY to give you this image. The file is blocked by Ubuntu (because I can't have docker on my PC), and I just can't seem to find a way to save it somewhere. (I broke 3 virtual machines trying to recover those files, nothing seems to work)
+It does work however; the container runs, and I can access my webpage after having built and run the docker image.
+
+Steps to reproduce (if you ever want to see it actually runs...)
+
+```bash
+sudo docker build -t devops .
+sudo docker run -p 8081:8080 -d devops
+```
+
+We can now see the server (going onto port 8081 and not 8080 as it was originally intended, because the port 8080 is now reserved to the container)
+
+![image-20191224172839920](C:\Users\Pierre\AppData\Roaming\Typora\typora-user-images\image-20191224172839920.png)
