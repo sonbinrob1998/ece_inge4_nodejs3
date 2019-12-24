@@ -32,6 +32,8 @@ export class User {
       }
       
       public myHash(str: String){
+        //really stupid hashing function that just places ones between every letter.
+        // myHash("paroli") = p1a1r1o1l1i1
         let arr: string = ""
         for (let i =0; i<str.length; i++)
         {
