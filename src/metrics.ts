@@ -33,22 +33,18 @@ export class MetricsHandler {
         callback(null, arr)
       })
   }
-
-  /*works for only 1 element, like {
-	"timestamp": 11111,
-	"value" : 11
-  }
-*/
-  public save(key: string, metrics: any, callback: (error: Error | null, result?: []) => void) {
+  public save(key: string, metrics: Metric[], callback: (error: Error | null, result?: []) => void) {
     const stream = WriteStream(this.db)
     stream.on('error', callback)
     stream.on('close', callback)
-      stream.write({ key: `metric:${key}:${metrics.timestamp}`, value: Number(metrics.value) })
-
+    metrics.forEach((m: Metric) => {
+      stream.write({ key: `metric:${key}:${m.timestamp}`, value: m.value })
+    })
     stream.end()
   }
 
-  public getMetricsUser(key: String, callback: (error: Error | null, result?: Metric[]) => void) {
+  public getMetricsUser(key: String, callback: (error: Error | null, result?: any) => void) {
+    console.log("Reading data for user", key)
 
     //creates a read stream
     const stream = this.db.createReadStream()
@@ -60,27 +56,33 @@ export class MetricsHandler {
         const [_, k, timestamp] = data.key.split(":")
         const value = data.value
         if (key == k) {
-        
+          console.log(`Adding metric ${timestamp} ; ${value}`)
           met.push(new Metric(timestamp, value))
         }
       })
       .on('end', (err: Error) => {
+        console.log("User's metrics are ", met)
         callback(null, met)
       })
   }
 
   public saveUser(params: any, callback: (error: Error | null, result?: any) => void) {
     console.log("Creating a new user with params ", params)
+
     const stream = WriteStream(this.db)
     stream.on('end', callback(null, { ok: ok }))
-    stream.write({ key: `user:${params.username}`, value: { email: `${params.email}`, password: `${params.password}` } })
+    stream.write({ key: `user:${params.name}`, value: { email: `${params.email}`, password: `${params.password}` } })
     stream.on('error')
     stream.end()
+
+
   }
-  public get(key: string, callback: (err: Error | null, result?: Metric[]) => void) {
+  public get(params: any, callback: (err: Error | null, result?: Metric[]) => void) {
     //creates a read stream
 
     const stream = this.db.createReadStream()
+    let key = params.id
+    let pwd = params.pwd
     var met: Metric[] = []
 
     stream.on('error', callback)
@@ -89,7 +91,11 @@ export class MetricsHandler {
         //for each data, we will fire this function
         const [_, k, timestamp] = data.key.split(":")
         const value = data.value
-        if (key == k) { 
+        if (key != k) {
+          console.log(`Data ${k} does not match key ${key}`)
+          met.push(new Metric(timestamp, value))
+        } else {
+          console.log(`Data ${k} match the key ${key}`)
           met.push(new Metric(timestamp, value))
         }
       })
@@ -115,28 +121,7 @@ export class MetricsHandler {
           console.log(`Data ${k} match the key ${key} and will be deleted`)
           this.db.del(data.key)
         }
-      })
-      .on('end', (err: Error) => {
-        callback(null)
-      })
-  }
-  public deleteOne(params, callback: (err: Error | null) => void) {
-
-    const stream = this.db.createReadStream()
-    let username = params.id
-    let timestamp = params.timestamp
-    stream.on('error', callback)
-      .on('data', (data: any) => {
-
-        //for each data, we will fire this function
-        const [_, usr, tmstmp] = data.key.split(":")
-        const value = data.value
-        if (usr != username || tmstmp != timestamp) {
-          
-        } else {
-          console.log(`Timestamp ${timestamp} for user ${username} will be deleted`)
-          this.db.del(data.key)
-        }
+      
       })
       .on('end', (err: Error) => {
         callback(null)

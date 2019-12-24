@@ -10,7 +10,8 @@ describe('Metrics', function () {
   before(function () {
     LevelDB.clear(dbPath)
     dbMet = new MetricsHandler(dbPath)
-    
+
+
   })
 
   after(function () {
@@ -80,12 +81,23 @@ describe('get', function () {
 //     })
 // })
 
+describe ('#save', function(){
+        it('should save data in an array', function (){
+            dbMet.save("robi",[new Metric ("11111", 11)] , (err: Error | null, result?:Metric[]) => {
+                expect(err).to.be.null
+                expect(result).to.not.be.empty
+                expect(result).to.be.an('array')
+                expect(result).to.include({"key":"robi", "timestamp": 11111, "value" : 11 })
+            })
+        })
+    })
   
 describe ('#delete', function(){
     it('should delete data', function (){
-        dbMet.delete( 1, function(err:Error| null, result?: Metric[]){
+        dbMet.delete( 11111, function(err:Error| null, result?: Metric[]){
             expect(err).to.be.null
-            expect(result).to.be.an('array').that.does.not.include({"key": 1})
+            expect(result).to.not.be.undefined
+              expect(result).that.does.not.include({"key": 1})
             
         })
     })
