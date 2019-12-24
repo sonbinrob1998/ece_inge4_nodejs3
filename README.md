@@ -70,6 +70,7 @@ sudo docker build -t devops .
 sudo docker run -p 8081:8080 -d devops
 ```
 
-We can now see the server (going onto port 8081 and not 8080 as it was originally intended, because the port 8080 is now reserved to the container)
+We can now see on the capture that the server (going onto port 8081 and not 8080 as it was originally intended, because the port 8080 is now reserved to the container)
 
-![](.\Capture.PNG)
+
+
