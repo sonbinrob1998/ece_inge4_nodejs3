@@ -72,4 +72,4 @@ sudo docker run -p 8081:8080 -d devops
 
 We can now see the server (going onto port 8081 and not 8080 as it was originally intended, because the port 8080 is now reserved to the container)
 
-![image-20191224172839920](C:\Users\Pierre\AppData\Roaming\Typora\typora-user-images\image-20191224172839920.png)
+![](.\Capture.PNG)
