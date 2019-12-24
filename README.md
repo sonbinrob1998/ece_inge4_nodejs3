@@ -1,5 +1,5 @@
 # ECE_ING4_NODEJS
-projet de nodejs et de devOps and SRE
+Project of DevOps and NodeJS
 
 
 
@@ -14,7 +14,7 @@ npm test
 
 
 
-Then navigate to [http://localhost:8080/login](2019/12/24-11:05:06.866 1244 Delete type=3 #1)
+Then navigate to [http://localhost:8080/login]()
 
 You can log in using those credentials :
 
@@ -22,4 +22,8 @@ You can log in using those credentials :
 username : User0
 password : paroli
 ```
+
+You can also create your own account.
+
+Once logged in, you can modify your metrics on the page  [http://localhost:8080/modification]()
 
