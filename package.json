@@ -20,7 +20,7 @@
     "encoding-down": "^6.3.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.5.0",
     "level": "^6.0.0",
     "level-session-store": "^2.2.0",
     "level-ws": "^2.0.0",
